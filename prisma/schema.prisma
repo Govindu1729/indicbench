@@ -1,0 +1,96 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model BenchmarkCategory {
+  id          String       @id @default(cuid())
+  slug        String       @unique
+  name        String
+  description String
+  icon        String
+  color       String
+  order       Int          @default(0)
+  benchmarks  Benchmark[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model Benchmark {
+  id          String              @id @default(cuid())
+  slug        String              @unique
+  name        String
+  description String
+  categoryId  String
+  category    BenchmarkCategory    @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  numQuestions Int                 @default(0)
+  difficulty  String              @default("mixed")
+  results     EvaluationResult[]
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+}
+
+model AIModel {
+  id          String             @id @default(cuid())
+  slug        String             @unique
+  name        String
+  provider    String
+  version     String?
+  description String?
+  results     EvaluationResult[]
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+}
+
+model EvaluationResult {
+  id           String     @id @default(cuid())
+  modelId      String
+  model        AIModel    @relation(fields: [modelId], references: [id], onDelete: Cascade)
+  benchmarkId  String
+  benchmark    Benchmark  @relation(fields: [benchmarkId], references: [id], onDelete: Cascade)
+  score        Float
+  accuracy     Float?
+  f1Score      Float?
+  latencyMs    Float?
+  costUsd      Float?
+  numCorrect   Int?
+  numTotal     Int?
+  evaluatedAt  DateTime   @default(now())
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@unique([modelId, benchmarkId])
+}
+
+model EvaluationRun {
+  id          String   @id @default(cuid())
+  modelId     String
+  modelSlug   String
+  modelName   String
+  status      String   @default("pending")
+  progress    Float    @default(0)
+  results     String?
+  startedAt   DateTime?
+  completedAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model BenchmarkSubmission {
+  id              String   @id @default(cuid())
+  name            String
+  description     String
+  category        String
+  difficulty      String
+  numQuestions    Int
+  submitterName   String
+  submitterEmail  String
+  sampleQuestions String   @default("[]")
+  status          String   @default("pending")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
