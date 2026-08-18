@@ -100,7 +100,9 @@ function generateFeedEntries(
   for (let i = 0; i < 10; i++) {
     const model = models[i % models.length];
     const cat = categories[i % categories.length];
-    const benchmark = cat.benchmarks[i % cat.benchmarks.length];
+    const bmList = cat.benchmarks;
+    if (!bmList || bmList.length === 0) continue;
+    const benchmark = bmList[i % bmList.length];
     const ranking = benchmark.modelRankings?.find((r) => r.modelId === model.model.id);
     const score = ranking?.score ?? (60 + Math.random() * 30);
 
