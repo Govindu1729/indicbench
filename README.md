@@ -6,7 +6,7 @@
 [![Bun Runtime](https://img.shields.io/badge/Runtime-Bun-white?logo=bun)](https://bun.sh/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 
-**IndicBench** is the first open‑source benchmark platform built specifically to evaluate AI models on Indian‑centric tasks.  
+**IndicBench** is one of the first open‑source benchmark platforms built specifically to evaluate AI models on Indian‑centric tasks.  
 From understanding legal documents in Hindi to solving JEE problems, we measure what matters for India.
 
 ---
