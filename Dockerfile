@@ -2,9 +2,13 @@ FROM node:22-alpine AS builder
 
 WORKDIR /app
 
-# Install dependencies
-COPY package.json bun.lock ./
-RUN corepack enable && bun install
+# Copy package files
+COPY package.json ./
+COPY bun.lockb ./bun.lockb
+
+# Install bun and dependencies
+RUN corepack enable && corepack prepare bun@latest --activate && \
+    bun install --frozen-lockfile
 
 # Copy source
 COPY . .
