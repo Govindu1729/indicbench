@@ -2,7 +2,7 @@ FROM node:22-alpine AS builder
 
 WORKDIR /app
 
-# Install bun
+# Install bun for build
 RUN npm install -g bun
 
 # Copy files
@@ -15,17 +15,17 @@ RUN bun install
 # Copy source
 COPY . .
 
-# Generate Prisma client before build
+# Generate Prisma client
 RUN bunx prisma generate
 
-# Build with standalone output
+# Build
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 RUN bun run build
 
-# Production image
-FROM node:22-alpine AS runner
+# Production image - no bun needed
+FROM node:22-alpine
 
 WORKDIR /app
 
@@ -33,6 +33,7 @@ ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
+ENV DATABASE_URL="file:./db/custom.db"
 
 # Create non-root user
 RUN addgroup --system --gid 1001 nodejs && \
@@ -48,5 +49,4 @@ USER nextjs
 
 EXPOSE 3000
 
-WORKDIR /app/.next/standalone
-CMD ["node", "server.js"]
+CMD ["node", ".next/standalone/server.js"]
