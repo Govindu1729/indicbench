@@ -1,4 +1,4 @@
-# 🇮🇳 IndicBench – India’s AI Benchmark Suite
+# 🇮🇳 IndicBench – India's AI Benchmark Suite
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Built with Next.js](https://img.shields.io/badge/Built_with-Next.js-black?logo=next.js)](https://nextjs.org/)
@@ -50,3 +50,32 @@ cp .env.example .env
 bun run db:generate && bun run db:push
 bunx prisma db seed
 bun run dev
+```
+
+---
+
+## 📚 Documentation
+
+- **[Architecture & Setup](docs/SETUP.md)** – Detailed setup guide
+- **[BenchLM Integration](docs/BENCHLM-INTEGRATION.md)** – External data sync
+- **[API Reference](docs/API.md)** – Full API documentation
+
+---
+
+## 🔗 Links
+
+- **Live Site**: https://indicbench.iitgn.ac.in
+- **IIT Gandhinagar**: https://www.iitgn.ac.in
+- **IndiaAI Mission**: https://indiaai.gov.in
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Please read our [Contributing Guide](CONTRIBUTING.md) before submitting PRs.
+
+---
+
+## 📄 License
+
+MIT License - See [LICENSE](LICENSE) file for details.
