@@ -15,8 +15,13 @@ RUN bun install
 # Copy source
 COPY . .
 
-# Build
+# Generate Prisma client before build
+RUN bunx prisma generate
+
+# Build with standalone output
 ENV NEXT_TELEMETRY_DISABLED=1
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
 RUN bun run build
 
 # Production image
@@ -27,6 +32,8 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
+ENV DATABASE_URL="file:./db/custom.db"
 
 # Create non-root user
 RUN addgroup --system --gid 1001 nodejs && \
