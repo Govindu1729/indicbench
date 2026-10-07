@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 100" xml:space="preserve">
+  <defs>
+    <!-- Saffron Gradient -->
+    <linearGradient id="saffronGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FF9933"/>
+      <stop offset="100%" stop-color="#FFB366"/>
+    </linearGradient>
+
+    <!-- Emerald Gradient -->
+    <linearGradient id="emeraldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#138808"/>
+      <stop offset="100%" stop-color="#1DB954"/>
+    </linearGradient>
+
+    <!-- Glow Filter -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Subtle Shadow -->
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Icon Mark (Left) -->
+  <g transform="translate(15, 50)">
+    <!-- Outer Circle -->
+    <circle r="35" fill="none" stroke="url(#saffronGrad)" stroke-width="2.5"/>
+
+    <!-- Inner Chakra -->
+    <circle r="25" fill="none" stroke="#FFFFFF" stroke-width="1.5" opacity="0.8"/>
+    <line x1="0" y1="-25" x2="0" y2="25" stroke="#FF9933" stroke-width="1.5"/>
+    <line x1="-25" y1="0" x2="25" y2="0" stroke="#FF9933" stroke-width="1.5"/>
+    <line x1="-17.7" y1="-17.7" x2="17.7" y2="17.7" stroke="#FF9933" stroke-width="1.5"/>
+    <line x1="17.7" y1="-17.7" x2="-17.7" y2="17.7" stroke="#FF9933" stroke-width="1.5"/>
+
+    <!-- AI Network Nodes -->
+    <circle cx="0" cy="0" r="6" fill="#FF9933" filter="url(#glow)"/>
+    <circle cx="0" cy="-15" r="3" fill="#FFFFFF" opacity="0.9"/>
+    <circle cx="13" cy="0" r="3" fill="#FFFFFF" opacity="0.9"/>
+    <circle cx="0" cy="15" r="3" fill="#FFFFFF" opacity="0.9"/>
+    <circle cx="-13" cy="0" r="3" fill="#FFFFFF" opacity="0.9"/>
+
+    <!-- Connection Lines -->
+    <line x1="0" y1="0" x2="0" y2="-15" stroke="#FF9933" stroke-width="1.5" opacity="0.7"/>
+    <line x1="0" y1="0" x2="13" y2="0" stroke="#FF9933" stroke-width="1.5" opacity="0.7"/>
+    <line x1="0" y1="0" x2="0" y2="15" stroke="#FF9933" stroke-width="1.5" opacity="0.7"/>
+    <line x1="0" y1="0" x2="-13" y2="0" stroke="#FF9933" stroke-width="1.5" opacity="0.7"/>
+  </g>
+
+  <!-- Brand Name "IndicBench" -->
+  <text x="70" y="58" font-family="'Playfair Display', Georgia, serif" font-size="32" font-weight="700" fill="#FFFFFF" letter-spacing="1">
+    Indic<tspan fill="url(#saffronGrad)">Bench</tspan>
+  </text>
+
+  <!-- Tagline -->
+  <text x="70" y="75" font-family="'Geist Mono', 'Courier New', monospace" font-size="9" fill="#8b8b9e" letter-spacing="2">
+    INDIA'S AI BENCHMARK SUITE
+  </text>
+
+  <!-- Decorative Line -->
+  <line x1="70" y1="82" x2="280" y2="82" stroke="url(#saffronGrad)" stroke-width="1.5" opacity="0.5"/>
+  <circle cx="70" cy="82" r="2" fill="#FF9933"/>
+  <circle cx="280" cy="82" r="2" fill="#138808"/>
+</svg>

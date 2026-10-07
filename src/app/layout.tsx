@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   keywords: ["IndicBench", "AI Benchmark", "India", "LLM", "Legal AI", "Healthcare AI", "Fintech AI", "Indian Languages", "Education AI", "IIT Gandhinagar", "IndiaAI Mission"],
   authors: [{ name: "IndicBench Team, IIT Gandhinagar" }],
   icons: {
-    icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
+    icon: "/favicon.svg",
   },
   openGraph: {
     title: "IndicBench — India's AI Benchmark Suite",
