@@ -15,6 +15,9 @@ RUN bun install
 # Copy source
 COPY . .
 
+# Generate Prisma client (bun skips dependency postinstall scripts)
+RUN bunx prisma generate
+
 # Build with standalone output
 ENV NEXT_TELEMETRY_DISABLED=1
 RUN bun run build
