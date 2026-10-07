@@ -2,8 +2,8 @@ FROM node:22-alpine AS builder
 
 WORKDIR /app
 
-# Install corepack and enable bun
-RUN corepack enable && corepack prepare bun@latest --activate
+# Install bun directly
+RUN npm install -g bun
 
 # Copy package files
 COPY package.json ./
