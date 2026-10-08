@@ -1,8 +1,8 @@
-node_modules/
-.next/
+node_modules
+.next
+out
+build
 .env
-.env.*
-*.log
+.env.local
 *.db
 *.sqlite
-.DS_Store

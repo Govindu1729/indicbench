@@ -1,29 +1,44 @@
-# Railway Setup Guide
+# Railway Deployment Guide
 
-## Prerequisites
-- Node.js 20+ (already on Railway)
-- PostgreSQL database (Neon/Supabase)
+## ✅ Railway-native Setup (No Docker)
 
-## Setup Steps
+### Step 1: Railway Configuration
 
-1. **Create Project on Railway**
-   - Click "New Project"
-   - Select "Deploy from GitHub"
-   - Choose your repository
+1. Go to [Railway Dashboard](https://railway.app)
+2. Create new project → "Deploy from GitHub"
+3. Select your repository
 
-2. **Add Environment Variables**
-   - DATABASE_URL: postgres://user:pass@host:5432/db
-   - BENCHLM_API_KEY: your-key
+### Step 2: Environment Variables
 
-3. **Database Setup**
-   ```bash
-   npx prisma generate
-   npx prisma migrate deploy
-   npx prisma db seed
-   ```
+Go to **Variables** tab in Railway and add:
 
-## Important Notes
-- Railway mounts volumes at `/data`
-- Update DATABASE_URL to use PostgreSQL (not SQLite)
-- Build command: `npm run build`
-- Start command: `npm start`
+| Key | Value |
+| :--- | :--- |
+| `DATABASE_URL` | `file:./db/custom.db` |
+
+### Step 3: Volume (For SQLite)
+
+1. Go to **Settings** → **Volumes**
+2. Add volume:
+   - **Name:** `db`
+   - **Mount Path:** `/app/db`
+
+### Step 4: Redeploy
+
+Click **Redeploy** to start fresh build.
+
+---
+
+## 🚨 Key Notes
+
+- **Build command:** `npm run build`
+- **Start command:** `npm start`
+- **Port:** Railway auto-detects 3000
+- **Database:** SQLite requires volume mount at `/app/db`
+
+## ❌ If Still Failing
+
+Check **Logs** tab for:
+- `npm ERR!` → Dependency issue
+- `Prisma Client not generated` → Run `prisma generate` locally
+- `EADDRINUSE` → Port conflict (Railway handles this)
