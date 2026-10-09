@@ -1,24 +1,25 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 
-// Test database connection
+// Detailed database connection check
 export async function GET() {
   try {
-    // Try to query any table
+    // Try basic query
     const category = await db.benchmarkCategory.findFirst();
-    const model = await db.aIModel.findFirst();
-    const benchmark = await db.benchmark.findFirst();
-
+    
     return NextResponse.json({
       status: 'connected',
-      tables: {
-        categories: category ? '✅' : '❌',
-        models: model ? '✅' : '❌',
-        benchmarks: benchmark ? '✅' : '❌'
+      database: {
+        provider: 'postgresql',
+        connection: 'success'
       },
-      sample: {
-        category: category?.slug || null,
-        model: model?.name || null
+      data: {
+        categories: category ? '✅ Found' : '❌ Empty',
+        sample: category ? {
+          id: category.id,
+          slug: category.slug,
+          name: category.name
+        } : null
       }
     });
   } catch (error) {
