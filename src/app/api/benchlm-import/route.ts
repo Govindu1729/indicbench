@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
     const models = await fetchBenchModels();
 
     // Create/update models in database
-    const createdModels = [];
+    const createdModels: any[] = [];
     for (const model of models) {
       const existing = await db.aIModel.findUnique({
         where: { slug: model.key },
@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Create evaluation results from rankings
-    const createdResults = [];
+    const createdResults: any[] = [];
     for (const ranking of rankings) {
       // Find benchmark - using default or create one
       let benchmark = await db.benchmark.findFirst({
