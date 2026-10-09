@@ -12,8 +12,8 @@ export async function GET(request: NextRequest) {
     const hasApiUrl = !!apiBaseUrl && apiBaseUrl.length > 0;
 
     // Fetch data if API key exists
-    const models: Awaited<ReturnType<typeof fetchBenchModels>> = [];
-    const rankings: Awaited<ReturnType<typeof fetchCurrentRankings>> = [];
+    let models: Awaited<ReturnType<typeof fetchBenchModels>> = [];
+    let rankings: Awaited<ReturnType<typeof fetchCurrentRankings>> = [];
 
     if (hasApiKey) {
       const allModels = await fetchBenchModels(10);
