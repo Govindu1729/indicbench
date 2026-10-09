@@ -5,7 +5,7 @@ export async function GET() {
   const databaseUrl = process.env.DATABASE_URL;
   
   // Check for common issues
-  const issues = [];
+  const issues: string[] = [];
   
   if (!databaseUrl) {
     issues.push('DATABASE_URL not set');
