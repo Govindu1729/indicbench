@@ -22,8 +22,9 @@ export async function POST(request: NextRequest) {
           where: { id: existing.id },
           data: {
             name: model.name,
-            provider: model.organization || 'BenchLM',
+            provider: model.creator || 'BenchLM',
             version: model.parameterCount || '',
+            description: model.url ? `See ${model.url}` : undefined,
           },
         });
       } else {
@@ -31,8 +32,9 @@ export async function POST(request: NextRequest) {
           data: {
             slug: model.key,
             name: model.name,
-            provider: model.organization || 'BenchLM',
+            provider: model.creator || 'BenchLM',
             version: model.parameterCount || '',
+            description: model.url ? `See ${model.url}` : undefined,
           },
         });
       }
