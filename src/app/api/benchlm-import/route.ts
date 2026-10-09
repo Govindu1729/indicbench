@@ -9,37 +9,60 @@ export async function POST(request: NextRequest) {
     const rankings = await fetchCurrentRankings(50);
     const models = await fetchBenchModels();
 
+    console.log(`Fetching ${models.length} models from BenchLM`);
+    console.log(`Fetching ${rankings.length} rankings from BenchLM`);
+
+    // Ensure benchmark category exists
+    let category = await db.benchmarkCategory.findFirst();
+    if (!category) {
+      category = await db.benchmarkCategory.create({
+        data: {
+          slug: 'general',
+          name: 'General',
+          description: 'General benchmarks',
+          icon: '📊',
+          color: '#f59e0b',
+          order: 0,
+        },
+      });
+      console.log('Created benchmark category:', category.id);
+    }
+
     // Create/update models in database
     const createdModels: any[] = [];
     for (const model of models) {
-      const existing = await db.aIModel.findUnique({
-        where: { slug: model.key },
-      });
+      try {
+        const existing = await db.aIModel.findUnique({
+          where: { slug: model.key },
+        });
 
-      let dbModel;
-      if (existing) {
-        dbModel = await db.aIModel.update({
-          where: { id: existing.id },
-          data: {
-            name: model.name,
-            provider: model.creator || 'BenchLM',
-            version: model.parameterCount || '',
-            description: model.url ? `See ${model.url}` : undefined,
-          },
-        });
-      } else {
-        dbModel = await db.aIModel.create({
-          data: {
-            slug: model.key,
-            name: model.name,
-            provider: model.creator || 'BenchLM',
-            version: model.parameterCount || '',
-            description: model.url ? `See ${model.url}` : undefined,
-          },
-        });
+        let dbModel;
+        if (existing) {
+          dbModel = await db.aIModel.update({
+            where: { id: existing.id },
+            data: {
+              name: model.name,
+              provider: model.creator || 'BenchLM',
+              version: model.parameterCount || '',
+            },
+          });
+        } else {
+          dbModel = await db.aIModel.create({
+            data: {
+              slug: model.key,
+              name: model.name,
+              provider: model.creator || 'BenchLM',
+              version: model.parameterCount || '',
+            },
+          });
+        }
+        createdModels.push(dbModel);
+      } catch (e) {
+        console.error(`Failed to process model ${model.key}:`, e);
       }
-      createdModels.push(dbModel);
     }
+
+    console.log(`Created/updated ${createdModels.length} models`);
 
     // Create evaluation results from rankings
     const createdResults: any[] = [];
