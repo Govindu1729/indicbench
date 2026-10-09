@@ -97,10 +97,7 @@ export async function POST(request: NextRequest) {
 
     const numCorrect = 0;
     const numTotal = questionsToEval.length;
-    const score = 0;
-
-    const numTotal = questionsToEval.length;
-    const score = Math.round((numCorrect / numTotal) * 100);
+    const score = numTotal > 0 ? Math.round((numCorrect / numTotal) * 100) : 0;
 
     return NextResponse.json({
       results: {
