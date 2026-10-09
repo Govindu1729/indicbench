@@ -12,12 +12,14 @@ export async function GET(request: NextRequest) {
     const hasApiUrl = !!apiBaseUrl && apiBaseUrl.length > 0;
 
     // Fetch data if API key exists
-    let models = [];
-    let rankings = [];
+    const models: Awaited<ReturnType<typeof fetchBenchModels>> = [];
+    const rankings: Awaited<ReturnType<typeof fetchCurrentRankings>> = [];
 
     if (hasApiKey) {
-      models = await fetchBenchModels(10);
-      rankings = await fetchCurrentRankings(10);
+      const allModels = await fetchBenchModels(10);
+      models = allModels || [];
+      const allRankings = await fetchCurrentRankings(10);
+      rankings = allRankings || [];
     }
 
     return NextResponse.json({

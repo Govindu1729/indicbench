@@ -20,6 +20,8 @@ export interface BenchModel {
   creator?: string;
   url?: string;
   releaseDate?: string;
+  parameterCount?: string;
+  modelType?: string;
 }
 
 export interface BenchRanking {
