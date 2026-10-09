@@ -76,8 +76,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Run live evaluation using z-ai-web-dev-sdk
-    let numCorrect = 0;
+    // NOTE: Live evaluation via z-ai-web-dev-sdk disabled for build compatibility.
+    // This SDK is not publicly available on NPM.
+    // Mock response for deployment purposes.
     const evalResults: Array<{
       question: string;
       expectedAnswer: string;
@@ -85,63 +86,18 @@ export async function POST(request: NextRequest) {
       isCorrect: boolean;
     }> = [];
 
-    // Dynamically import z-ai-web-dev-sdk (backend only)
-    const ZaiModule = await import("z-ai-web-dev-sdk") as any;
-    const zai = new ZaiModule.default();
-
     for (const q of questionsToEval) {
-      try {
-        const prompt = `You are an expert on Indian affairs. Answer the following question concisely and accurately.\n\nQuestion: ${q.question}\n\nProvide a brief, factual answer:`;
-
-        const completion = await zai.chat.completions.create({
-          model: aiModel.slug,
-          messages: [
-            {
-              role: "system",
-              content:
-                "You are an expert on Indian law, governance, healthcare, finance, education, and culture. Provide concise, accurate answers.",
-            },
-            { role: "user", content: prompt },
-          ],
-          temperature: 0.1,
-          max_tokens: 200,
-        });
-
-        const modelAnswer =
-          completion.choices?.[0]?.message?.content?.trim() ?? "";
-
-        // Simple correctness check: if the expected answer appears in the model answer (case-insensitive)
-        const isCorrect =
-          modelAnswer
-            .toLowerCase()
-            .includes(q.expectedAnswer.toLowerCase()) ||
-          q.expectedAnswer
-            .toLowerCase()
-            .split(/[,;]/)
-            .some(
-              (part) =>
-                part.trim().length > 2 &&
-                modelAnswer.toLowerCase().includes(part.trim().toLowerCase())
-            );
-
-        if (isCorrect) numCorrect++;
-
-        evalResults.push({
-          question: q.question,
-          expectedAnswer: q.expectedAnswer,
-          modelAnswer,
-          isCorrect,
-        });
-      } catch (llmError) {
-        console.error("LLM call error:", llmError);
-        evalResults.push({
-          question: q.question,
-          expectedAnswer: q.expectedAnswer,
-          modelAnswer: "[Error: LLM call failed]",
-          isCorrect: false,
-        });
-      }
+      evalResults.push({
+        question: q.question,
+        expectedAnswer: q.expectedAnswer,
+        modelAnswer: "[Evaluation disabled: SDK unavailable]",
+        isCorrect: false,
+      });
     }
+
+    const numCorrect = 0;
+    const numTotal = questionsToEval.length;
+    const score = 0;
 
     const numTotal = questionsToEval.length;
     const score = Math.round((numCorrect / numTotal) * 100);
